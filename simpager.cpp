@@ -18,11 +18,6 @@
  * NOTE: LRU output may differ due to changes in process clock time.
 */
 
-/**
- * To do:
- * - make ./a.out < inputfile.txt with cin work
-*/
-
 void process_file(int argc, std::string fname, std::vector<int>& reference_string,
     int &num_frames, std::vector<std::string> &mneumonics);
 void process_input(std::string fname, std::vector<int>& reference_string,
@@ -47,7 +42,6 @@ int main(int argc, char * argv[])
     int num_frames = 0;     // number of frames
 
     process_file(argc, filename, reference_string, num_frames, mneumonics);
-    // process_input(filename, reference_string, num_frames, mneumonics);
     results.resize(mneumonics.size());
     for(int i=0; i<mneumonics.size(); i++) {
         results[i] = -1;
@@ -64,7 +58,7 @@ int main(int argc, char * argv[])
 
 /**
  * @brief Processes the text input file.
- * @param the number of arguments in the command line arguments.
+ * @param argc the number of arguments in the command line arguments.
  * @param fname the name of the input file.
  * @param reference_string the variable which will contain the numbers representing the reference string
  *      from the input file.
@@ -117,39 +111,6 @@ void process_file(int argc, std::string fname, std::vector<int>& reference_strin
 
 
 /**
- * 
-*/
-void process_input(std::string fname, std::vector<int>& reference_string,
-    int &num_frames, std::vector<std::string> &mneumonics)
-{
-    std::string rstr;
-    std::string line;
-
-    std::getline(std::cin, rstr);
-    for(int i=0; i<rstr.length(); i+=2) {
-        reference_string.push_back(rstr[i] - '0');
-    }
-
-    std::cout << "\n" << rstr << "\n";
-
-    std::getline(std::cin, line);
-    num_frames = stoi(line);
-    // throw exception if less than one frame.
-    if(num_frames < 1) {
-        throw std::invalid_argument("input file must include at least one page.");
-    }
-
-    std::cout << "\n" << num_frames << "\n";
-
-    while(std::getline(std::cin, line))  //input from the file in.txt
-    {
-        mneumonics.push_back(line);
-        std::cout << line << "\n";   //output to the file out.txt
-    }
-}
-
-
-/**
  * @brief Iterates through mneumonics vector and processes all mneumonics using FIFO, 
  *      LRU, OPT, and RAND methods, then inserts their result (number of page faults)
  *      into the results vector.
@@ -178,20 +139,6 @@ void process_mneumonics(std::vector<std::string> mneumonics,
             std::cerr << "\nError: invalid input in file.\n";
         counter++;
     }
-    // for(int counter = 0; counter < results.size(); counter++) {
-    //     if(mneumonics[counter] == "FIFO")
-    //         results[counter] = fifo(num_frames, reference_string);
-    //     else if(mneumonics[counter] == "LRU")
-    //         results[counter] = lru(num_frames, reference_string);
-    //     else if(mneumonics[counter] == "OPT")
-    //         // results[counter] = opt(num_frames, reference_string);
-    //         std::cout << "Hi";
-    //     else if(mneumonics[counter] == "RAND")
-    //         results[counter] = randalg(num_frames, reference_string);
-    //     else   
-    //         std::cerr << "\nError: invalid input in file.\n";
-    //     counter++;
-    // }
 }
 
 
